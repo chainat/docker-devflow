@@ -3,6 +3,7 @@ export APP_BASE_PATH=/var/www/devflow
 export APP_NAMESPACE=devflow
 
 export APP_VER_WEB="0.1"
+export APP_VER_DATA="0.1"
 export APP_VER_DATABASE="0.1"
 
 
@@ -37,6 +38,10 @@ cmd_build_web () {
     build "web" $APP_VER_WEB
 }
 
+cmd_build_data () {
+    build "data" $APP_VER_WEB
+}
+
 cmd_build_database() {
     build "database" $APP_VER_DATABASE
 }
@@ -46,8 +51,9 @@ cmd_remove_all_free_rmi () {
 }
 
 cmd_build_all () {
-    build "web" APP_VER_API
-    build "database" APP_VER_API
+    build "web" APP_VER_WEB
+    build "data" APP_VER_DATA
+    build "database" APP_VER_DATABASE
 }
 
 docker_cmd () {

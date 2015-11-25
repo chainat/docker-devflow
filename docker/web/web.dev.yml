@@ -8,14 +8,17 @@ web:
     - database:db
   ports:
     - "2222:22"
+data:
+  image: devflow/data:latest
+  volumes:
+    - /mysql_data:/var/lib/mysql
 database:
   image: devflow/database:latest
   env_file:
     # relative to the path where docker-compose.yml is
     - "../database/config/settings.env"
-  volumes:
-    # use local bind-mount volume for now, we could use data container later
-    - /var/lib/mysql:/var/lib/mysql
+  volumes_from:
+    - data
   environment:
     - MYSQL_ROOT_PASSWORD=root
   ports:

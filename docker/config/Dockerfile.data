@@ -1,0 +1,7 @@
+FROM ubuntu:12.04
+MAINTAINER Chainat Wongtapan <chainat@gmail.com>
+
+# Volume for database
+VOLUME /var/lib/mysql
+
+CMD ["/bin/bash"]
