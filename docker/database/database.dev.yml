@@ -1,0 +1,8 @@
+mysql:
+  extends:
+    file: database.yml
+    service: mysql
+  # this will override the one specified in config/settings.env
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+  command: "bash -c '/entrypoint.sh mysqld;' && sleep 10s && /startup.sh"

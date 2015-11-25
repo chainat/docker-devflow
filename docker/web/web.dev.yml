@@ -1,0 +1,22 @@
+web:
+  extends:
+    file: web.yml
+    service: web
+  environment:
+    - TEST_ENV=test-value
+  links:
+    - database:db
+  ports:
+    - "2222:22"
+database:
+  image: devflow/database:latest
+  env_file:
+    # relative to the path where docker-compose.yml is
+    - "../database/config/settings.env"
+  volumes:
+    # use local bind-mount volume for now, we could use data container later
+    - /var/lib/mysql:/var/lib/mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+  ports:
+    - "3306:3306"

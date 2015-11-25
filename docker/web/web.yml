@@ -1,0 +1,9 @@
+web:
+  image: devflow/web:latest
+  env_file:
+    # relative to the path where docker-compose.yml is
+    - "config/settings.env"
+  volumes:
+    - /var/www/devflow/code:/var/www/devflow
+  ports:
+    - "80:80"

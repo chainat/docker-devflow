@@ -1,0 +1,11 @@
+FROM mysql:5.7
+MAINTAINER Chainat Wongtapan <chainat@gmail.com>
+
+# use supplied configuration file
+ADD ./docker/database/config/my.cnf /etc/mysql/my.cnf
+
+#ADD ./docker/database/test_data /test_data
+#RUN gzip -d /test_data/xxx.sql.gz
+
+# ADD ./docker/database/cmd/startup.sh /startup.sh
+# RUN chmod +x /startup.sh

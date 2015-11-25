@@ -1,0 +1,26 @@
+FROM ubuntu:12.04
+MAINTAINER Chainat Wongtapan <chainat@gmail.com>
+
+RUN apt-get update && \
+    apt-get install -y openssh-server apache2 supervisor php5 php5-cli libapache2-mod-php5 php5-json php5-mysql nano && \
+    mkdir -p /var/run/sshd && \
+    mkdir -p /var/log/supervisor
+
+RUN useradd ubuntu -d /home/ubuntu && \
+    mkdir -p /home/ubuntu/.ssh && \
+    /bin/chmod 700 /home/ubuntu/.ssh && \
+    /bin/chown ubuntu:ubuntu /home/ubuntu/.ssh
+
+ADD ./code /var/www/devflow
+ADD docker/web/config/default.conf /etc/apache2/sites-available/default
+RUN a2enmod rewrite && \
+    sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/apache2/php.ini && \
+    sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/cli/php.ini && \
+    sed -ri 's/^PermitRootLogin.*$/PermitRootLogin yes/g' /etc/ssh/sshd_config
+
+ADD docker/web/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD docker/web/cmd/startup.sh /usr/local/bin/
+RUN /bin/chmod +x /usr/local/bin/startup.sh
+
+EXPOSE 22 80
+CMD ["/usr/local/bin/startup.sh"]
